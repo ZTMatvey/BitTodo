@@ -1,0 +1,6 @@
+@import '../../Globals.scss';
+
+.content {
+    grid-area: content;
+    @extend %gridBlock;
+  }

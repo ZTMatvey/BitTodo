@@ -1,0 +1,6 @@
+@import '../../Globals.scss';
+
+.nav {
+    grid-area: nav;
+    @extend %gridBlock;
+}

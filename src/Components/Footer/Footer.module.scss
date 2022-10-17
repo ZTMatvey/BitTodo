@@ -1,0 +1,6 @@
+@import '../../Globals.scss';
+
+.footer {
+    grid-area: footer;
+    @extend %gridBlock;
+}

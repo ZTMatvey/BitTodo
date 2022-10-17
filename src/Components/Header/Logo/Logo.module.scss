@@ -1,0 +1,14 @@
+.logo{
+    display: inline-flex;
+    flex-direction: column;
+    flex: none;
+    text-transform: uppercase;
+    user-select: none;
+}
+.logo__main{
+    font-size: 2rem;
+}
+.logo__sub{
+    font-size: 1.1rem;
+    text-size-adjust: auto;
+}
