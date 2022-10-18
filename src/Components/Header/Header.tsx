@@ -1,12 +1,12 @@
 import React from 'react'
 import AccountButton from './AccountButton/AccountButton';
-import styles from './Header.module.scss';
+import Styles from './Header.module.scss';
 import Logo from './Logo/Logo';
 
 const Header = () => {
     return (
-        <header className={styles.headerWrapper}>
-            <div className={styles.header}>
+        <header className={Styles.headerWrapper}>
+            <div className={Styles.header}>
                 <Logo />
                 <AccountButton />
             </div>

@@ -1,0 +1,19 @@
+.item{
+    cursor: pointer;
+    user-select: none;
+    padding: .5rem .5rem .5rem 0;
+    border-radius: .1rem;
+    display: flex;
+    align-items: center;
+    padding-left: .5em;
+    &:hover{
+        background-color: #424242;
+        transition: .05s linear;
+    }
+}
+.icon{
+    margin-right: 1rem;
+}
+.active{
+    background: #272727;
+}

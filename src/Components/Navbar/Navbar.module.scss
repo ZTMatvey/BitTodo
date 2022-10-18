@@ -2,5 +2,9 @@
 
 .nav {
     grid-area: nav;
-    @extend %gridBlock;
+    display: flex;
+    flex-direction: column;
+}
+.navItem{
+    
 }

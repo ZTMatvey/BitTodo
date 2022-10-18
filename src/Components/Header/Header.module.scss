@@ -1,8 +1,6 @@
-@import '../../Globals.scss';
-
 .headerWrapper {
     grid-area: header;
-    @extend %gridBlock;
+    background-color: #424242;
 }
 .header{
     height: 100%;

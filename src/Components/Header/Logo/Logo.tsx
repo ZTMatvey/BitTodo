@@ -1,11 +1,14 @@
 import React from 'react'
-import styles from './Logo.module.scss'
+import Styles from './Logo.module.scss'
 
 const Logo = () => {
   return (
-    <div className={styles.logo}>
-        <div className={styles.logo__main}>Bit</div>
-        <div className={styles.logo__sub}>todo</div>
+    <div className={Styles.logo}>
+      <div className={Styles.largeLetters}>BTD</div>
+      <div className={Styles.smallLetters}>
+        <div className={Styles.text}>Bit</div>
+        <div className={Styles.text}>todo</div>
+      </div>
     </div>
   )
 }
