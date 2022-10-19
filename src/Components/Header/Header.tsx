@@ -2,15 +2,27 @@ import React from 'react'
 import AccountButton from './AccountButton/AccountButton';
 import Styles from './Header.module.scss';
 import Logo from './Logo/Logo';
+import { Navbar, NavbarBrand, Button } from 'reactstrap'
 
-const Header = () => {
+interface HeaderProps{
+    toggleSidebar(): void;
+}
+
+const Header: React.FC<HeaderProps> = ({toggleSidebar}) => {
     return (
-        <header className={Styles.headerWrapper}>
+        <Navbar color="dark" dark>
             <div className={Styles.header}>
-                <Logo />
+                <div>
+                    <span onClick={()=>toggleSidebar()} className={`${'material-symbols-outlined'} ${Styles.toggleSidebarBtn}`}>
+                        menu
+                    </span>
+                    <NavbarBrand href="/">
+                        <Logo />
+                    </NavbarBrand>
+                </div>
                 <AccountButton />
             </div>
-        </header>
+        </Navbar>
     )
 }
 

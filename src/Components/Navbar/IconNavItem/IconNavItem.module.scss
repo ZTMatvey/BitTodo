@@ -1,0 +1,26 @@
+@import '../../../Globals.scss';
+
+.navItem {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    color: $lightColor;
+    border-radius: 0 !important;
+    font-size: 1rem;
+
+    &:hover {
+        background-color: $lightColor;
+        color: $darkColor;
+    }
+
+    &:focus {
+        color: $lightColor;
+    }
+
+    &:focus:hover {
+        color: $darkColor;
+    }
+}
+.icon{
+    margin-right: .5rem;
+}

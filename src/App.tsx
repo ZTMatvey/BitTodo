@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import logo from './logo.svg';
 import './App.scss';
 import Header from './Components/Header/Header';
@@ -7,19 +7,20 @@ import Content from './Components/Content/Content';
 import Footer from './Components/Footer/Footer';
 import { BrowserRouter } from 'react-router-dom'
 import Task from './Service/Task';
+import TaskProp from './Service/TaskProp';
 
 interface AppProps{
-  tasks: Task[];
 }
 
-const App: React.FC<AppProps> = ({tasks})=> {
+const App: React.FC<AppProps> = ({})=> {
+  const [sidebar, setSidebar] = useState<boolean>(true);
   return (
     <BrowserRouter>
       <div className='app-wrapper'>
-        <Header />
+        <Header toggleSidebar={()=> setSidebar(!sidebar)}/>
         <div className="app-content-wrapper">
-          <Navbar />
-          <Content tasks={tasks}/>
+          <Navbar isActive={sidebar} />
+          <Content/>
         </div>
       </div>
     </BrowserRouter>

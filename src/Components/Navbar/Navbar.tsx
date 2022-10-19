@@ -1,14 +1,22 @@
 import React from 'react'
 import Styles from './Navbar.module.scss'
-import NavItem from './NavItem/NavItem'
+import { Nav, NavItem, NavLink } from 'reactstrap'
+import { Link } from 'react-router-dom'
+import IconNavItem from './IconNavItem/IconNavItem'
+import { ClassNames } from '@emotion/react'
 
-const Navbar = () => {
+interface NavbarProps{
+  isActive: boolean
+}
+
+const Navbar: React.FC<NavbarProps> = ({isActive}) => {
   return (
-    <nav className={Styles.nav}>
-      <NavItem link='/all-tasks' icon='today' content='Все задачи'/>
-      <NavItem link='/add-new-task' icon='add_task' content='Добавить новую задачу'/>
-      <NavItem link='/my-groups' icon='folder' content='Мои группы'/>
-    </nav>
+      <Nav card pills vertical color='dark' className={`${'bg-dark'} ${Styles.sidebar} ${isActive ? Styles.isActive : ''}`}>
+        <NavItem>
+          <IconNavItem link='/add-task' content='Добавить задачу' icon='add_task'/>
+          <IconNavItem link='/all-tasks' content='Все задачи' icon='folder'/>
+        </NavItem>
+      </Nav>
   )
 }
 

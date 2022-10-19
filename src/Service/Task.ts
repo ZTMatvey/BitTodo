@@ -1,5 +1,7 @@
+import PriorityLevel from "./PriorityLevel";
+
 class Task{
-    constructor(public text: string, public isCompleted: boolean) {
+    constructor(public groupName: string, public title: string, public description: string, public priorityLevel: PriorityLevel, public isCompleted: boolean, public id: string) {
         
     }
 }
