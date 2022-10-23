@@ -9,6 +9,7 @@ import { BrowserRouter } from 'react-router-dom'
 import Task from './Service/Task';
 import TaskProp from './Service/TaskProp';
 import Auth from './Components/Auth/Auth';
+import { ToastContainer } from 'react-toastify';
 
 interface AppProps {
 }
@@ -29,7 +30,19 @@ const App: React.FC<AppProps> = ({ }) => {
   return (
     <BrowserRouter>
       <div className='app-wrapper'>
-        {app}
+        <>{app}</>
+        <ToastContainer
+          position="top-right"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </div>
     </BrowserRouter >
   );

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Form, FormGroup, Input, Label, FormFeedback, Button, Spinner } from 'reactstrap'
 import Styles from '../Auth.module.scss'
 import { useNavigate } from 'react-router-dom'
@@ -7,11 +7,16 @@ import { useValidatingInput } from '../../../Service/ValidatingInput'
 import EmptyValidator from '../../../Service/Validators/EmptyValidator'
 import LengthValidator from '../../../Service/Validators/LengthValidator'
 import ConfirmValidator from '../../../Service/Validators/ConfirmValidator'
+import { useAppDispatch, useAppSelector } from '../../../Service/Redux/Reducers/Hooks'
+import { useTypedSelector } from '../../../Service/Redux/UseTypeSelector'
+import UserRegistrationDTO from '../../../Service/DTO/UserRegistrationDTO'
+import { register } from '../../../Service/Redux/Reducers/AuthSlice'
 
 
 const Register = () => {
-    const [requestSended, setRequestSended] = useState(false);
+    const requestSended = useAppSelector(state=> state.Register.isPending);
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
     const login = useValidatingInput([
         new EmptyValidator("Логин не может быть пустым"),
         new LengthValidator("Минимальная длина логина — 4", 4)]);
@@ -27,14 +32,13 @@ const Register = () => {
     const handleLoginClick = (path: string) => {
         navigate(path);
     };
-    const formButtonContent = requestSended ? (<Spinner size="sm" color="dark">Loading...</Spinner>) : <>Зарегистрироваться</>;
     const formButtonClickHandler =()=>{
-        setRequestSended(true);
+        dispatch(register(new UserRegistrationDTO(email.value, login.value, password.value)));
     }
     password.addAction(() => confirmPassword.update());
     return (
         <div className={Styles.formWrapper}>
-            <span className={Styles.title}>Регистрация</span>
+            <span className={Styles.title}>Регистрация {requestSended && <Spinner size="sm" color="dark">Loading...</Spinner>}</span>
             <Form className={Styles.form}>
                 <FormGroup>
                     <Label for="login">
@@ -52,7 +56,7 @@ const Register = () => {
                         placeholder="Логин"
                         type="text"
                     />
-                    <FormFeedback invalid={login.valueHasError}>{login.inputIsTouched && <>{login.errorMessage}</>}</FormFeedback>
+                    <FormFeedback invalid={login.valueHasError.toString()}>{login.inputIsTouched && <>{login.errorMessage}</>}</FormFeedback>
                 </FormGroup>
                 <FormGroup>
                     <Label for="email">
@@ -69,7 +73,7 @@ const Register = () => {
                         name="email"
                         placeholder="Email"
                         type="email" />
-                    <FormFeedback invalid={email.valueHasError}>{email.inputIsTouched && <>{email.errorMessage}</>}</FormFeedback>
+                    <FormFeedback invalid={email.valueHasError.toString()}>{email.inputIsTouched && <>{email.errorMessage}</>}</FormFeedback>
                 </FormGroup>
                 <FormGroup>
                     <Label for="password">
@@ -86,7 +90,7 @@ const Register = () => {
                         name="password"
                         placeholder="Пароль"
                         type="password" />
-                    <FormFeedback invalid={password.valueHasError}>{password.inputIsTouched && <>{password.errorMessage}</>}</FormFeedback>
+                    <FormFeedback invalid={password.valueHasError.toString()}>{password.inputIsTouched && <>{password.errorMessage}</>}</FormFeedback>
                 </FormGroup>
                 <FormGroup>
                     <Label for="confirmPassword">
@@ -104,12 +108,12 @@ const Register = () => {
                         placeholder="Подтвердите пароль"
                         type="password"
                     />
-                    <FormFeedback invalid={confirmPassword.valueHasError}>{confirmPassword.inputIsTouched && <>{confirmPassword.errorMessage}</>}</FormFeedback>
+                    <FormFeedback invalid={confirmPassword.valueHasError.toString()}>{confirmPassword.inputIsTouched && <>{confirmPassword.errorMessage}</>}</FormFeedback>
                 </FormGroup>
             </Form>
             <div className={Styles.options}>
-                <Button onClick={formButtonClickHandler} disabled={login.valueHasError || email.valueHasError || password.valueHasError || confirmPassword.valueHasError || requestSended}>
-                    {formButtonContent}
+                <Button onClick={formButtonClickHandler} disabled={login.valueHasError || email.valueHasError || password.valueHasError || confirmPassword.valueHasError || requestSended }>
+                    Зарегистрироваться
                 </Button>
                 <div className={Styles.login}>
                     <span>Уже есть аккаунт? Тогда</span>

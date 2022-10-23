@@ -4,7 +4,7 @@ import PriorityLevel from '../../../Service/PriorityLevel'
 import { useAppDispatch, useAppSelector } from '../../../Service/Redux/Reducers/Hooks'
 import { addTask } from '../../../Service/Redux/Reducers/TasksSlice'
 import Task from '../../../Service/Task'
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const AddNewTask = () => {
@@ -56,18 +56,6 @@ const AddNewTask = () => {
       <Button onClick={add}>
         Добавить
       </Button>
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
     </div>
   )
 }
