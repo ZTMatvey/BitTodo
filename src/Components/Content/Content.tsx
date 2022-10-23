@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import Task from '../../Service/Task'
 import TaskProp from '../../Service/TaskProp'
 import AddNewTask from '../Pages/AddNewTask/AddNewTask'
@@ -15,6 +15,7 @@ const Content: React.FC<ContentProps> = ({}) => {
       <Routes>
         <Route path='/add-task' element={<AddNewTask/>}/>
         <Route path='/all-tasks' element={<AllTasks/>}/>
+        <Route path="*" element={<Navigate to="/all-tasks" replace />} />
       </Routes>
     </main>
   )

@@ -1,20 +1,33 @@
-import React from 'react'
-import Task from '../../../Service/Task'
+import React, { useState } from 'react'
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 import TaskItem from './TaskItem/TaskItem'
 import Styles from './AllTasks.module.scss'
-import TaskProp from '../../../Service/TaskProp';
 import DeleteModal from '../../DeleteModal/DeleteModal';
-import {useTypedSelector} from '../../../Service/Redux/UseTypeSelector'
+import { useTypedSelector } from '../../../Service/Redux/UseTypeSelector'
+import { useAppSelector } from '../../../Service/Redux/Reducers/Hooks';
+import Multiselect from 'multiselect-react-dropdown';
 
 interface AllTasksProps {
 }
 
-const AllTasks: React.FC<AllTasksProps> = ({}) => {
-    var renderTasks = useTypedSelector(state=>state.AllTasks.tasks).map(t => <TaskItem task={t} />);
+const AllTasks: React.FC<AllTasksProps> = ({ }) => {
+    var renderTasks = useTypedSelector(state => state.AllTasks.tasks).map(t => <TaskItem key={t.id} task={t} />);
+    const groups = useAppSelector(x => x.AllTasks.groups);
+    const groupOptions = groups.map(x => <DropdownItem key={x.id}>{x.name}</DropdownItem>);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const toggle = () => setDropdownOpen((prevState) => !prevState);
     return (
-        <div className={Styles.tasksContainer}>
-            {/* <DeleteModal opened={deleteModalOpened} task={activeTask}/> */}
-            {renderTasks}
+        <div>
+            <Multiselect
+                placeholder='Группы'
+                options={groups}
+                selectedValues={[]}
+                displayValue="name"
+                emptyRecordMsg='Пусто'/>
+            {<DeleteModal />}
+            <div className={Styles.tasksContainer}>
+                {renderTasks}
+            </div>
         </div>
     )
 }

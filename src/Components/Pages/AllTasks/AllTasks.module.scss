@@ -1,44 +1,54 @@
-.tasksContainer{
+.tasksContainer {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 1rem;
 }
-.taskItem{
-    width: 100%!important;
+
+.taskItem {
+    width: 100% !important;
 }
-.cardWrapper{
+
+.cardWrapper {
     display: flex;
     flex-direction: column;
 }
-.cardContent{
+
+.cardContent {
     flex: 1 1 auto;
 }
-.cardBottom{
+
+.cardBottom {
     display: flex;
     align-items: center;
     justify-content: space-between;
     font-size: 2rem;
 }
-.completeCB{
+
+.completeCB {
     padding: 0;
 }
-.cardHeader{
+
+.cardHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-.cardActions{
+
+.cardActions {
     display: flex;
     align-items: center;
-    &.actionBtn{
+
+    &.actionBtn {
         margin-right: 0;
     }
 }
-.completed{
+
+.completed {
     font-size: 2rem;
 }
-.actionBtn{
+
+.actionBtn {
     margin-right: 1rem;
 }

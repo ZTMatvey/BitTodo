@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import AllTasksReducer from './AllTasks/AllTasksReducer';
+import AllTasksReducer from './TasksSlice';
 
 const reducers = combineReducers({
     AllTasks: AllTasksReducer
