@@ -1,36 +1,52 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { showToast } from './../../Toast';
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import AddTaskDTO from "../../DTO/AddTaskDTO";
 import Group from "../../Group";
 import PriorityLevel from "../../PriorityLevel";
 import Task from "../../Task";
+import ToastNotificationType from '../../ToastNotificationType';
 
+const _loadTasks = async()=>{
+    const requestOptions = {
+        method: 'GET',
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+    }
+    const response = await fetch('https://localhost:7197/api/account/tasks', requestOptions);
+    const data = await response.json();
+    return data;
+}
+export const loadTasks = createAsyncThunk(
+    'tasks/load',
+    async () => await _loadTasks()
+);
+export const addTask = createAsyncThunk(
+    'tasks/add',
+    async (params: AddTaskDTO) => {
+        const body = JSON.stringify(params);
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+            body
+        }
+        const response = await fetch('https://localhost:7197/api/account/addtask', requestOptions).then(async ()=> await _loadTasks());
+        return response;
+    }
+);
 type TasksState = {
     tasks: Task[],
-    groups: Group[]
     removeTaskConfirmationOpened: boolean,
     focusedTask?: Task
 }
 
 const initialState: TasksState = {
-    tasks: [
-        new Task("Собственное", `Заголовок 1`, `Описание 1`, PriorityLevel.First, false, '1'),
-        new Task("Собственное", `Заголовок 2`, `Описание 2`, PriorityLevel.First, false, '2'),
-        new Task("Собственное", `Заголовок 3`, `Описание 3`, PriorityLevel.First, false, '3')],
-    removeTaskConfirmationOpened: false,
-    groups: [
-        new Group("Собственное", '1'),
-        new Group("Общее", '2'),
-    ]
+    tasks: [],
+    removeTaskConfirmationOpened: false
 }
 
 const tasksSlice = createSlice({
     name: 'tasks',
     initialState: initialState,
     reducers: {
-        addTask(state, action: PayloadAction<Task>){
-            const task = action.payload;
-            task.id = 'asdf';
-            state.tasks.push(task);
-        },
         removeTask(state, action: PayloadAction<string>) {
             state.tasks = state.tasks.filter(x => x.id !== action.payload);
         },
@@ -42,8 +58,25 @@ const tasksSlice = createSlice({
         closeRemoveTaskConfirmation(state, action: PayloadAction) {
             state.removeTaskConfirmationOpened = false;
         }
+    },
+    extraReducers: builder=>{
+        
+        builder.addCase(loadTasks.fulfilled, (state, action) => {
+            state.tasks = action.payload;
+        });
+        builder.addCase(loadTasks.rejected, (state) => {
+            showToast(ToastNotificationType.Error, 'Ошибка при загрузке задач');
+        });
+        builder.addCase(addTask.fulfilled, (state, action) => {
+            showToast(ToastNotificationType.Success, 'Задача успешно добавлена');
+            state.tasks = action.payload;
+            
+        });
+        builder.addCase(addTask.rejected, () => {
+            showToast(ToastNotificationType.Error, 'Ошибка при добавлении задачи');
+        });
     }
 });
 
-export const { removeTask, openRemoveTaskConfirmation, closeRemoveTaskConfirmation, addTask } = tasksSlice.actions
+export const { removeTask, openRemoveTaskConfirmation, closeRemoveTaskConfirmation } = tasksSlice.actions
 export default tasksSlice.reducer

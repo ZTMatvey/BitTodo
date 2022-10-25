@@ -3,7 +3,7 @@ import reducers from './Reducers/Reducers';
 
 const store = configureStore({
     reducer: reducers,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    middleware: getDefaultMiddleware => getDefaultMiddleware({
         serializableCheck: false
     }),
 });

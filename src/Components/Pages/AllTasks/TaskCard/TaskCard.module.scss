@@ -1,0 +1,47 @@
+
+.taskItem {
+    width: 100% !important;
+}
+
+.cardWrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.cardContent {
+    flex: 1 1 auto;
+}
+
+.cardBottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 2rem;
+}
+
+.completeCB {
+    padding: 0;
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cardActions {
+    display: flex;
+    align-items: center;
+
+    &.actionBtn {
+        margin-right: 0;
+    }
+}
+
+.completed {
+    font-size: 2rem;
+}
+
+.actionBtn {
+    margin-right: 1rem;
+}

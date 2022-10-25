@@ -7,6 +7,7 @@
     color: $lightColor;
     border-radius: 0 !important;
     font-size: 1rem;
+    user-select: none;
 
     &:hover {
         background-color: $lightColor;

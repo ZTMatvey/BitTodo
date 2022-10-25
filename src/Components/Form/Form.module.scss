@@ -1,0 +1,15 @@
+@import '../../Globals.scss';
+
+.formWrapper{
+    border: 2px solid $darkColor;
+    border-radius: .5rem;
+    padding: 1rem;
+    text-align: left;
+}
+.form{
+    padding: 1rem;
+    min-width: 30vw;
+}
+.title{
+    font-size: 2rem;
+}

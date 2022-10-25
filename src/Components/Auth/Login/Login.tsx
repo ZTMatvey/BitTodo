@@ -1,5 +1,5 @@
-import React, {useState} from 'react'
-import { Form, FormGroup, Input, Label, FormFeedback, Button, Spinner } from 'reactstrap'
+import React, { useState } from 'react'
+import { Button, Spinner } from 'reactstrap'
 import Styles from '../Auth.module.scss'
 import { useNavigate } from 'react-router-dom'
 import EmailValidator from '../../../Service/Validators/EmailValidator'
@@ -10,62 +10,33 @@ import ConfirmValidator from '../../../Service/Validators/ConfirmValidator'
 import { useAppDispatch, useAppSelector } from '../../../Service/Redux/Reducers/Hooks'
 import { login } from '../../../Service/Redux/Reducers/AuthSlice'
 import UserLoginDTO from '../../../Service/DTO/UserLoginDTO'
+import InputWithValidation from '../../InputWithValidatoin/InputWithValidation'
+import Form from '../../Form/Form'
 
 
 const Login = () => {
-    const requestSended = useAppSelector(state=> state.Register.isPending);
+    const requestSended = useAppSelector(state => state.Auth.isPending);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+
     const username = useValidatingInput([
-        new EmptyValidator("Логин не может быть пустым"), 
+        new EmptyValidator("Логин не может быть пустым"),
         new LengthValidator("Минимальная длина пароля — 4", 4)]);
+
     const password = useValidatingInput([
-        new EmptyValidator("Пароль не может быть пустым"), 
+        new EmptyValidator("Пароль не может быть пустым"),
         new LengthValidator("Минимальная длина пароля — 6", 6)]);
     const handleRegisterClick = (path: string) => {
         navigate(path);
     };
-    const formButtonClickHandler = ()=>{
+    const formButtonClickHandler = () => {
         dispatch(login(new UserLoginDTO(username.value, password.value)));
     };
     return (
         <div className={Styles.formWrapper}>
-            <span className={Styles.title}>Вход {requestSended && <Spinner size="sm" color="dark">Loading...</Spinner>}</span>
-            <Form className={Styles.form}>
-                <FormGroup>
-                    <Label for="login">
-                        Логин
-                    </Label>
-                    <Input 
-                        invalid = {username.valueHasError && username.inputIsTouched}
-                        valid ={!username.valueHasError}
-                        onBlur={username.onBlur}
-                        value={username.value}
-                        onChange={username.onChange}
-                        disabled={requestSended}
-                        id="login"
-                        name="login"
-                        placeholder="Логин"
-                        type="text"/>
-                    <FormFeedback invalid={username.valueHasError.toString()}>{username.inputIsTouched && <>{username.errorMessage}</>}</FormFeedback>
-                </FormGroup>
-                <FormGroup>
-                    <Label for="password">
-                        Пароль
-                    </Label>
-                    <Input
-                        invalid={password.valueHasError && password.inputIsTouched}
-                        valid={!password.valueHasError}
-                        value={password.value}
-                        onBlur={password.onBlur}
-                        onChange={password.onChange}
-                        disabled={requestSended}
-                        id="password"
-                        name="password"
-                        placeholder="Пароль"
-                        type="password" />
-                    <FormFeedback invalid={password.valueHasError.toString()}>{password.inputIsTouched && <>{password.errorMessage}</>}</FormFeedback>
-                </FormGroup>
+            <Form title={<>Вход {requestSended && <Spinner size="sm" color="dark">Loading...</Spinner>}</>}>
+                <InputWithValidation type='text' placeholder='Логин' validatorData={username} id='username' />
+                <InputWithValidation type='password' placeholder='Пароль' validatorData={password} id='password' />
             </Form>
             <div className={Styles.options}>
                 <Button onClick={formButtonClickHandler} disabled={username.valueHasError || password.valueHasError || requestSended}>Войти</Button>

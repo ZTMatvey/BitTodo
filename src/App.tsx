@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.scss';
 import Header from './Components/Header/Header';
@@ -10,13 +10,23 @@ import Task from './Service/Task';
 import TaskProp from './Service/TaskProp';
 import Auth from './Components/Auth/Auth';
 import { ToastContainer } from 'react-toastify';
+import { useAppDispatch, useAppSelector } from './Service/Redux/Reducers/Hooks';
+import { updateIsAuthorizedStatus } from './Service/Redux/Reducers/AuthSlice';
+import { loadGroups } from './Service/Redux/Reducers/GroupsSlice';
+import { loadTasks } from './Service/Redux/Reducers/TasksSlice';
 
 interface AppProps {
 }
 
 const App: React.FC<AppProps> = ({ }) => {
   const [sidebar, setSidebar] = useState<boolean>(true);
-  const [isAuthorized, setAuthorized] = useState(false);
+  const isAuthorized = useAppSelector(state => state.Auth.isAuthorized);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(updateIsAuthorizedStatus());
+    dispatch(loadGroups());
+    dispatch(loadTasks());
+  }, [isAuthorized]);
   const app = isAuthorized ?
     (
       <>

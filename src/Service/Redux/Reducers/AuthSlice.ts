@@ -45,8 +45,16 @@ const initialState: AuthState = {
 const authSlice = createSlice({
     name: 'auth',
     initialState: initialState,
-    reducers: {},
-    extraReducers: (builder) => {
+    reducers: {
+        updateIsAuthorizedStatus(state) {
+            state.isAuthorized = localStorage.getItem('token') !== null;
+        },
+        logout(state){
+            localStorage.removeItem('token');
+            authSlice.caseReducers.updateIsAuthorizedStatus(state);
+        }
+    },
+    extraReducers: builder => {
         builder.addCase(register.pending, (state, action) => {
             state.isPending = true;
         });
@@ -79,7 +87,11 @@ const authSlice = createSlice({
             state.isPending = false;
             if (action.payload.status === 400)
                 showToast(ToastNotificationType.Error, 'Ошибка при входе');
-            else showToast(ToastNotificationType.Success, 'Вход успешно выполнен');
+            else {
+                showToast(ToastNotificationType.Success, 'Вход успешно выполнен');
+                localStorage.setItem('token', action.payload.token);
+                authSlice.caseReducers.updateIsAuthorizedStatus(state);
+            }
         });
         builder.addCase(login.rejected, (state, action) => {
             state.isPending = false;
@@ -89,5 +101,5 @@ const authSlice = createSlice({
     }
 });
 
-export const { } = authSlice.actions
+export const { logout, updateIsAuthorizedStatus } = authSlice.actions
 export default authSlice.reducer

@@ -1,17 +1,17 @@
 import React from 'react'
 import Task from '../../../../Service/Task'
-import Styles from '../AllTasks.module.scss'
+import Styles from './TaskCard.module.scss'
 import { CardBody, Card, CardTitle, CardHeader, CardText, Input, Button, CardFooter } from 'reactstrap'
 import { useAppDispatch } from '../../../../Service/Redux/Reducers/Hooks'
-import { openRemoveTaskConfirmation} from '../../../../Service/Redux/Reducers/TasksSlice'
 
-interface TaskItemProps {
-  task: Task
+interface TaskCardProps {
+  title: string
+  description: string
+  deleteButtonClick: ()=> void
 }
 
-const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
-  const dispatch = useAppDispatch();
-  const deleteBtnClick = () => dispatch(openRemoveTaskConfirmation(task.id))
+const TaskCard: React.FC<TaskCardProps> = ({ title, description, deleteButtonClick }) => {
+  const deleteBtnClick = () => deleteButtonClick();
   return (
     <Card
       className={`my-2 ${Styles.taskItem}`}
@@ -22,7 +22,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
       }}
     >
       <CardHeader className={Styles.cardHeader}>
-        <div>{task.title}</div>
+        <div>{title}</div>
         <div className={Styles.cardActions}>
           <Input type='checkbox' className={`${Styles.completed} ${Styles.actionBtn}`}/>
           <Button onClick={deleteBtnClick} size="sm" className={Styles.actionBtn} color="danger" outline >
@@ -39,7 +39,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
       </CardHeader>
       <CardBody>
         <CardText>
-          {task.description}
+          {description}
         </CardText>
       </CardBody>
       <CardFooter>
@@ -48,4 +48,4 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
   )
 }
 
-export default TaskItem
+export default TaskCard
