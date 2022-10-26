@@ -2,7 +2,8 @@ import React, {useState, useEffect} from 'react'
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap'
 import Task from '../../Service/Task';
 import {useAppSelector, useAppDispatch } from '../../Service/Redux/Reducers/Hooks'
-import { removeTask, closeRemoveTaskConfirmation } from '../../Service/Redux/Reducers/TasksSlice'
+import { removeTask, closeRemoveTaskConfirmation, deleteTask } from '../../Service/Redux/Reducers/TasksSlice'
+import DeleteTaskDTO from '../../Service/DTO/DeleteTaskDTO';
 
 interface DeleteModalProps{ }
 
@@ -13,9 +14,9 @@ const DeleteModal: React.FC<DeleteModalProps> = () => {
     const toggle = ()=>{
         dispatch(closeRemoveTaskConfirmation());
     };
-    const deleteTask = ()=>{
+    const onDelete = ()=>{
         toggle();
-        dispatch(removeTask(task!.id));
+        dispatch(deleteTask(new DeleteTaskDTO(task!.id)));
     };
     if(!task)
         return <></>
@@ -29,7 +30,7 @@ const DeleteModal: React.FC<DeleteModalProps> = () => {
                 <Button color="secondary" onClick={toggle}>
                     Отмена
                 </Button>
-                <Button color="danger" onClick={deleteTask}>
+                <Button color="danger" onClick={onDelete}>
                     Удалить
                 </Button>
             </ModalFooter>

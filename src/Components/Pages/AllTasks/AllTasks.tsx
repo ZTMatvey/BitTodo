@@ -13,7 +13,7 @@ interface AllTasksProps {
 
 const AllTasks: React.FC<AllTasksProps> = ({ }) => {
     const dispatch = useAppDispatch();
-    var renderTasks = useTypedSelector(state => state.AllTasks.tasks).map(t => <TaskItem key={t.id} title={t.title} description={t.description}
+    var renderTasks = useTypedSelector(state => state.AllTasks.tasks).map(t => <TaskItem key={t.id} task={t}
         deleteButtonClick={()=>dispatch(openRemoveTaskConfirmation(t.id))} />);
     const groups = useAppSelector(x => x.Groups.groups);
     const groupOptions = groups.map(x => <DropdownItem key={x.id}>{x.name}</DropdownItem>);

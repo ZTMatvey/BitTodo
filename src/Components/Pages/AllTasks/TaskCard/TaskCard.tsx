@@ -1,17 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Task from '../../../../Service/Task'
 import Styles from './TaskCard.module.scss'
 import { CardBody, Card, CardTitle, CardHeader, CardText, Input, Button, CardFooter } from 'reactstrap'
 import { useAppDispatch } from '../../../../Service/Redux/Reducers/Hooks'
+import { setTaskCompletedState } from '../../../../Service/Redux/Reducers/TasksSlice'
+import SetTaskCompletedStateDTO from '../../../../Service/DTO/SetTaskCompletedStateDTO'
 
 interface TaskCardProps {
-  title: string
-  description: string
+  task: Task
   deleteButtonClick: ()=> void
 }
 
-const TaskCard: React.FC<TaskCardProps> = ({ title, description, deleteButtonClick }) => {
+const TaskCard: React.FC<TaskCardProps> = ({ task, deleteButtonClick}) => {
+  const [isCompleted, setCompleted] = useState(task.isCompleted);
   const deleteBtnClick = () => deleteButtonClick();
+  const dispatch = useAppDispatch();
+  const onStateChange = (event: React.ChangeEvent<HTMLInputElement>)=>{
+    setCompleted(event.currentTarget.checked);
+    dispatch(setTaskCompletedState(new SetTaskCompletedStateDTO(task.id, event.currentTarget.checked)));
+  }
+
   return (
     <Card
       className={`my-2 ${Styles.taskItem}`}
@@ -22,9 +30,9 @@ const TaskCard: React.FC<TaskCardProps> = ({ title, description, deleteButtonCli
       }}
     >
       <CardHeader className={Styles.cardHeader}>
-        <div>{title}</div>
+        <div>{task.title}</div>
         <div className={Styles.cardActions}>
-          <Input type='checkbox' className={`${Styles.completed} ${Styles.actionBtn}`}/>
+          <Input checked={isCompleted} onChange={onStateChange} type='checkbox' className={`${Styles.completed} ${Styles.actionBtn}`}/>
           <Button onClick={deleteBtnClick} size="sm" className={Styles.actionBtn} color="danger" outline >
             <span className={`material-symbols-outlined`}>
               delete
@@ -39,7 +47,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ title, description, deleteButtonCli
       </CardHeader>
       <CardBody>
         <CardText>
-          {description}
+          {task.description}
         </CardText>
       </CardBody>
       <CardFooter>

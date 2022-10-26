@@ -5,6 +5,8 @@ import Group from "../../Group";
 import PriorityLevel from "../../PriorityLevel";
 import Task from "../../Task";
 import ToastNotificationType from '../../ToastNotificationType';
+import SetTaskCompletedStateDTO from '../../DTO/SetTaskCompletedStateDTO';
+import DeleteTaskDTO from '../../DTO/DeleteTaskDTO';
 
 const _loadTasks = async()=>{
     const requestOptions = {
@@ -29,6 +31,32 @@ export const addTask = createAsyncThunk(
             body
         }
         const response = await fetch('https://localhost:7197/api/account/addtask', requestOptions).then(async ()=> await _loadTasks());
+        return response;
+    }
+);
+export const setTaskCompletedState = createAsyncThunk(
+    'tasks/setTaskCompletedState',
+    async (params: SetTaskCompletedStateDTO) => {
+        const body = JSON.stringify(params);
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+            body
+        }
+        const response = await fetch('https://localhost:7197/api/account/setcompletedstate', requestOptions);
+        return response;
+    }
+);
+export const deleteTask = createAsyncThunk(
+    'tasks/deleteTask',
+    async (params: DeleteTaskDTO) => {
+        const body = JSON.stringify(params);
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+            body
+        }
+        const response = await fetch('https://localhost:7197/api/account/deletetask', requestOptions).then(async ()=> await _loadTasks());
         return response;
     }
 );
@@ -70,10 +98,12 @@ const tasksSlice = createSlice({
         builder.addCase(addTask.fulfilled, (state, action) => {
             showToast(ToastNotificationType.Success, 'Задача успешно добавлена');
             state.tasks = action.payload;
-            
         });
         builder.addCase(addTask.rejected, () => {
             showToast(ToastNotificationType.Error, 'Ошибка при добавлении задачи');
+        });
+        builder.addCase(deleteTask.fulfilled, (state, action) => {
+            state.tasks = action.payload;
         });
     }
 });
