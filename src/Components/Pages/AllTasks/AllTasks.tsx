@@ -15,18 +15,8 @@ const AllTasks: React.FC<AllTasksProps> = ({ }) => {
     const dispatch = useAppDispatch();
     var renderTasks = useTypedSelector(state => state.AllTasks.tasks).map(t => <TaskItem key={t.id} task={t}
         deleteButtonClick={()=>dispatch(openRemoveTaskConfirmation(t.id))} />);
-    const groups = useAppSelector(x => x.Groups.groups);
-    const groupOptions = groups.map(x => <DropdownItem key={x.id}>{x.name}</DropdownItem>);
-    const [dropdownOpen, setDropdownOpen] = useState(false);
-    const toggle = () => setDropdownOpen((prevState) => !prevState);
     return (
         <div>
-            <Multiselect
-                placeholder='Группы'
-                options={groups}
-                selectedValues={[]}
-                displayValue="name"
-                emptyRecordMsg='Пусто'/>
             {<DeleteModal />}
             <div className={Styles.tasksContainer}>
                 {renderTasks}

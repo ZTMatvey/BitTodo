@@ -24,8 +24,11 @@ const App: React.FC<AppProps> = ({ }) => {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(updateIsAuthorizedStatus());
-    dispatch(loadGroups());
-    dispatch(loadTasks());
+    if(isAuthorized)
+    {
+      dispatch(loadGroups());
+      dispatch(loadTasks());
+    }
   }, [isAuthorized]);
   const app = isAuthorized ?
     (

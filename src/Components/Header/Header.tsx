@@ -20,7 +20,6 @@ const Header: React.FC<HeaderProps> = ({toggleSidebar}) => {
                         <Logo />
                     </NavbarBrand>
                 </div>
-                <AccountButton />
             </div>
         </Navbar>
     )
